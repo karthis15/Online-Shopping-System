@@ -32,7 +32,7 @@ public class AuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
 		String email = request.getParameter("username");
 
-		User user = userRepository.findByEmail(email);
+		User user = userRepository.findByEmailAndIsRecordDeletedFalse(email);
 
 		if (user != null) {
 

@@ -12,6 +12,11 @@ import jakarta.persistence.Table;
 @Table(name = "product")
 public class Product extends AbstractAuditingEntity{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -29,19 +34,22 @@ public class Product extends AbstractAuditingEntity{
 	private Double price;
 
 	@Column(name = "stock")
-	private int stock;
+	private Integer stock;
 
 	@Column(name = "image")
 	private String image;
 
 	@Column(name = "discount")
-	private int discount;
+	private Integer discount;
 	
 	@Column(name = "discountPrice")
 	private Double discountPrice;
 	
 	@Column(name = "isActive")
 	private Boolean isActive;
+	
+	@Column(name = "purchaseCount")
+	private Integer purchaseCount = 0;
 
 	public Long getId() {
 		return id;
@@ -83,11 +91,11 @@ public class Product extends AbstractAuditingEntity{
 		this.price = price;
 	}
 
-	public int getStock() {
+	public Integer getStock() {
 		return stock;
 	}
 
-	public void setStock(int stock) {
+	public void setStock(Integer stock) {
 		this.stock = stock;
 	}
 
@@ -99,11 +107,11 @@ public class Product extends AbstractAuditingEntity{
 		this.image = image;
 	}
 
-	public int getDiscount() {
+	public Integer getDiscount() {
 		return discount;
 	}
 
-	public void setDiscount(int discount) {
+	public void setDiscount(Integer discount) {
 		this.discount = discount;
 	}
 
@@ -123,8 +131,24 @@ public class Product extends AbstractAuditingEntity{
 		this.isActive = isActive;
 	}
 
-	public Product(Long id, String title, String description, String category, Double price, int stock, String image,
-			int discount, Double discountPrice, Boolean isActive) {
+	public Integer getPurchaseCount() {
+		return purchaseCount;
+	}
+
+	public void setPurchaseCount(Integer purchaseCount) {
+		this.purchaseCount = purchaseCount;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", title=" + title + ", description=" + description + ", category=" + category
+				+ ", price=" + price + ", stock=" + stock + ", image=" + image + ", discount=" + discount
+				+ ", discountPrice=" + discountPrice + ", isActive=" + isActive + ", purchaseCount=" + purchaseCount
+				+ "]";
+	}
+
+	public Product(Long id, String title, String description, String category, Double price, Integer stock,
+			String image, Integer discount, Double discountPrice, Boolean isActive, Integer purchaseCount) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -136,19 +160,14 @@ public class Product extends AbstractAuditingEntity{
 		this.discount = discount;
 		this.discountPrice = discountPrice;
 		this.isActive = isActive;
-	}
-
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", title=" + title + ", description=" + description + ", category=" + category
-				+ ", price=" + price + ", stock=" + stock + ", image=" + image + ", discount=" + discount
-				+ ", discountPrice=" + discountPrice + ", isActive=" + isActive + "]";
+		this.purchaseCount = purchaseCount;
 	}
 
 	public Product() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
 	
 	
 

@@ -30,10 +30,10 @@ public class JwtTokenUtil implements Serializable {
 //	private String secretKey = "secret";
 	private final String SECRET_KEY = "mySecretKeykarthiswaran15051999IsMySecret123456";
 
-	public String generateToken(AppUserDTO user) {
+	public String generateToken(String user) {
 		Map<String, Object> claims = new HashMap<>();
 
-		return Jwts.builder().claims().add(claims).subject(user.getUserName())
+		return Jwts.builder().claims().add(claims).subject(user)
 				.issuedAt(new Date(System.currentTimeMillis()))
 				.expiration(new Date(System.currentTimeMillis() + 60 * 60 * 30)).and().signWith(getKey()).compact();
 
@@ -82,5 +82,19 @@ public class JwtTokenUtil implements Serializable {
 	public String checkUserName(String token) {
 		return extractClaim(token, Claims::getSubject);
 	}
+
+	public String extractUsername(String token) {
+	    return extractClaim(token, Claims::getSubject); 
+	}
+	
+//	 public boolean validateToken(String token, UserDetails userDetails) {
+//	        final String username = extractUsername(token);
+//	        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+//	    }
+
+	    private boolean isTokenExpired(String token) {
+	        return extractExpiration(token).before(new Date());
+	    }
+
 
 }

@@ -2,26 +2,23 @@ package com.example.online_shopping.domain;
 
 import java.time.Instant;
 
+import com.example.online_shopping.util.Identifiable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
 //@Audited
 @Table(name = "user_m")
-public class User extends AbstractAuditingEntity {
+public class User extends AbstractAuditingEntity implements Identifiable<String> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-//	@GenericGenerator(name = "tbluser_generator", strategy = "com.wdsi.microservice.bidding.hbm.generator.DeafultTblUserIDGenerator", parameters = {
-//			@org.hibernate.annotations.Parameter(name = "sequence_prefix", value = DeafultTblUserIDGenerator.defaultsSequencePrefix),
-//			@org.hibernate.annotations.Parameter(name = "sequence_increment", value = DeafultTblUserIDGenerator.defaultSsequenceIncrement) })
-//	@GeneratedValue(generator = "tbluser_generator")
+//	@GeneratedValue(generator = "user-id-generator")
+//	@CustomUserId;
 	@Column(name = "userid")
 	private String id;
 
@@ -36,21 +33,24 @@ public class User extends AbstractAuditingEntity {
 
 	@Column(name = "username")
 	private String userName;
-	
+
 	@Column(name = "password")
 	private String password;
 
 	@Column(name = "telephonenumber")
 	private String telephoneNumber;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "countryid")
-	private TblCountriesMaster countriesMaster;
+	@Column(name = "profileImage", length = 1000)
+	private String profileImage;
 
-	// isOnline for Go-online and Go-offline status in mobile
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "isonline")
-	private TblStatusTypes isOnline;
+//	@OneToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "countryid")
+//	private TblCountriesMaster countriesMaster;
+//
+//	// isOnline for Go-online and Go-offline status in mobile
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "isonline")
+//	private TblStatusTypes isOnline;
 
 	@Column(name = "logininouttime")
 	private Instant loginInOutTime;
@@ -67,9 +67,9 @@ public class User extends AbstractAuditingEntity {
 	@Column(name = "hometownzipCode")
 	private String hometownZipCode;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "profileimagestatus")
-	private TblStatusTypes profileImageStatus;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "profileimagestatus")
+//	private TblStatusTypes profileImageStatus;
 
 	@Column(name = "otpresetkey")
 	private String otpResetKey;
@@ -97,7 +97,7 @@ public class User extends AbstractAuditingEntity {
 
 	@Column(name = "role")
 	private String role;
-	
+
 	@Column(name = "failedAttempt")
 	private Integer failedAttempt;
 
@@ -157,20 +157,12 @@ public class User extends AbstractAuditingEntity {
 		this.telephoneNumber = telephoneNumber;
 	}
 
-	public TblCountriesMaster getCountriesMaster() {
-		return countriesMaster;
+	public String getProfileImage() {
+		return profileImage;
 	}
 
-	public void setCountriesMaster(TblCountriesMaster countriesMaster) {
-		this.countriesMaster = countriesMaster;
-	}
-
-	public TblStatusTypes getIsOnline() {
-		return isOnline;
-	}
-
-	public void setIsOnline(TblStatusTypes isOnline) {
-		this.isOnline = isOnline;
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
 	}
 
 	public Instant getLoginInOutTime() {
@@ -211,14 +203,6 @@ public class User extends AbstractAuditingEntity {
 
 	public void setHometownZipCode(String hometownZipCode) {
 		this.hometownZipCode = hometownZipCode;
-	}
-
-	public TblStatusTypes getProfileImageStatus() {
-		return profileImageStatus;
-	}
-
-	public void setProfileImageStatus(TblStatusTypes profileImageStatus) {
-		this.profileImageStatus = profileImageStatus;
 	}
 
 	public String getOtpResetKey() {
@@ -293,11 +277,6 @@ public class User extends AbstractAuditingEntity {
 		this.role = role;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	
-
 	public Integer getFailedAttempt() {
 		return failedAttempt;
 	}
@@ -306,24 +285,27 @@ public class User extends AbstractAuditingEntity {
 		this.failedAttempt = failedAttempt;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", login=" + login + ", isActive=" + isActive + ", email=" + email + ", userName="
-				+ userName + ", password=" + password + ", telephoneNumber=" + telephoneNumber + ", countriesMaster="
-				+ countriesMaster + ", isOnline=" + isOnline + ", loginInOutTime=" + loginInOutTime + ", company="
-				+ company + ", hometownLatitude=" + hometownLatitude + ", hometownLongitude=" + hometownLongitude
-				+ ", hometownZipCode=" + hometownZipCode + ", profileImageStatus=" + profileImageStatus
+				+ userName + ", password=" + password + ", telephoneNumber=" + telephoneNumber + ", profileImage="
+				+ profileImage + ", loginInOutTime=" + loginInOutTime + ", company=" + company + ", hometownLatitude="
+				+ hometownLatitude + ", hometownLongitude=" + hometownLongitude + ", hometownZipCode=" + hometownZipCode
 				+ ", otpResetKey=" + otpResetKey + ", profilePercentage=" + profilePercentage
 				+ ", profilePercentageStage=" + profilePercentageStage + ", dateOfBirth=" + dateOfBirth + ", address="
-				+ address + ", city=" + city + ", state=" + state + ", pincode=" + pincode + ", role=" + role + "]";
+				+ address + ", city=" + city + ", state=" + state + ", pincode=" + pincode + ", role=" + role
+				+ ", failedAttempt=" + failedAttempt + "]";
 	}
 
 	public User(String id, String login, Boolean isActive, String email, String userName, String password,
-			String telephoneNumber, TblCountriesMaster countriesMaster, TblStatusTypes isOnline, Instant loginInOutTime,
-			String company, Double hometownLatitude, Double hometownLongitude, String hometownZipCode,
-			TblStatusTypes profileImageStatus, String otpResetKey, Double profilePercentage,
-			Double profilePercentageStage, Instant dateOfBirth, String address, String city, String state,
-			String pincode, String role) {
+			String telephoneNumber, String profileImage, Instant loginInOutTime, String company,
+			Double hometownLatitude, Double hometownLongitude, String hometownZipCode, String otpResetKey,
+			Double profilePercentage, Double profilePercentageStage, Instant dateOfBirth, String address, String city,
+			String state, String pincode, String role, Integer failedAttempt) {
 		super();
 		this.id = id;
 		this.login = login;
@@ -332,14 +314,12 @@ public class User extends AbstractAuditingEntity {
 		this.userName = userName;
 		this.password = password;
 		this.telephoneNumber = telephoneNumber;
-		this.countriesMaster = countriesMaster;
-		this.isOnline = isOnline;
+		this.profileImage = profileImage;
 		this.loginInOutTime = loginInOutTime;
 		this.company = company;
 		this.hometownLatitude = hometownLatitude;
 		this.hometownLongitude = hometownLongitude;
 		this.hometownZipCode = hometownZipCode;
-		this.profileImageStatus = profileImageStatus;
 		this.otpResetKey = otpResetKey;
 		this.profilePercentage = profilePercentage;
 		this.profilePercentageStage = profilePercentageStage;
@@ -349,13 +329,12 @@ public class User extends AbstractAuditingEntity {
 		this.state = state;
 		this.pincode = pincode;
 		this.role = role;
+		this.failedAttempt = failedAttempt;
 	}
 
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	
 
 }

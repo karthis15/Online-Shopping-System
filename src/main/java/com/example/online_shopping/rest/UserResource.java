@@ -14,12 +14,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.online_shopping.service.UserService;
 import com.example.online_shopping.service.dto.AppUserDTO;
 import com.example.online_shopping.service.dto.UserDTO;
 import com.example.online_shopping.util.JwtTokenUtil;
+
+import io.jsonwebtoken.io.IOException;
 
 @RestController
 @RequestMapping("/api")
@@ -29,15 +34,30 @@ public class UserResource {
 	@Autowired
 	UserService userService;
 	
-	@Autowired
-	JwtTokenUtil jwtTokenUtil;
 
-	@PostMapping("/tbl-users")
+	@PostMapping("/register/tbl-users")
 	public UserDTO createTblUser(@RequestBody UserDTO userDTO) throws URISyntaxException {
 		log.debug("REST request to save User : {}", userDTO);
 		UserDTO result = userService.save(userDTO);
 		return result;
 	}
+	
+//	@PostMapping("/tbl-users")
+//	public UserDTO createTblUser(
+//	    @RequestPart("userDTO") UserDTO userDTO,
+//	    @RequestPart(value = "profileImage", required = false) MultipartFile profileImage
+//	) throws URISyntaxException, IOException {
+//	    log.debug("REST request to save User : {}", userDTO);
+//	    
+//	    if (profileImage != null && !profileImage.isEmpty()) {
+//	        // Upload to Google Drive and get URL
+//	        String imageUrl = googleDriveService.uploadFile(profileImage);
+//	        userDTO.setProfileImage(imageUrl);
+//	    }
+//	    
+//	    UserDTO result = userService.save(userDTO);
+//	    return result;
+//	}
 
 	@PutMapping("/tbl-users")
 	public UserDTO updateTblUser(@RequestBody UserDTO userDTO) throws URISyntaxException {
@@ -64,11 +84,11 @@ public class UserResource {
 		userService.delete(id);
 	}
 	
-	@PostMapping("/tbl-token")
-	public String createT(@RequestBody AppUserDTO appUserDTO) throws URISyntaxException {
+	 @PostMapping("/upload")
+	    public String uploadFile(@RequestParam("file") MultipartFile file ,@PathVariable String id ) throws Exception {
+	        userService.imageUploadFileUser(file,id);
+	        return "File uploaded successfully. Google Drive File ID: " ;
+	    }
 	
-		
-		return jwtTokenUtil.generateToken(appUserDTO);
-	}
 
 }

@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import com.example.online_shopping.config.UserPrincipal;
 import com.example.online_shopping.domain.User;
 import com.example.online_shopping.repository.UserRepository;
-
-@Service(value = "userService")
+//(value = "userService")
+@Service   
 public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	private final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		User user = userRepository.findByEmail(username);
+		User user = userRepository.findByEmailAndIsRecordDeletedFalse(username);
 
 		if (user == null) {
 			throw new UsernameNotFoundException("user not found");

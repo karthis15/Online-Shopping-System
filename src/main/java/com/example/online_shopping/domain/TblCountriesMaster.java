@@ -38,7 +38,7 @@ public class TblCountriesMaster extends AbstractAuditingEntity {
 	private String alpha2;
 
 	@Column(name = "countrynumericcode")
-	private int countrycode;
+	private Integer countrycode;
 
 	@Column(name = "region")
 	private String region;
@@ -56,6 +56,21 @@ public class TblCountriesMaster extends AbstractAuditingEntity {
 
 	@Column(name = "currencysymbol")
 	private String currencySymbol;
+
+	public TblCountriesMaster(String id, String countryName, String currency, String alpha2, Integer countrycode,
+			String region, String subregion, String callingCode, TblTimeZone tblTimeZone, String currencySymbol) {
+		super();
+		this.id = id;
+		this.countryName = countryName;
+		this.currency = currency;
+		this.alpha2 = alpha2;
+		this.countrycode = countrycode;
+		this.region = region;
+		this.subregion = subregion;
+		this.callingCode = callingCode;
+		this.tblTimeZone = tblTimeZone;
+		this.currencySymbol = currencySymbol;
+	}
 
 	public String getId() {
 		return id;
@@ -89,11 +104,11 @@ public class TblCountriesMaster extends AbstractAuditingEntity {
 		this.alpha2 = alpha2;
 	}
 
-	public int getCountrycode() {
+	public Integer getCountrycode() {
 		return countrycode;
 	}
 
-	public void setCountrycode(int countrycode) {
+	public void setCountrycode(Integer countrycode) {
 		this.countrycode = countrycode;
 	}
 
@@ -149,23 +164,10 @@ public class TblCountriesMaster extends AbstractAuditingEntity {
 				+ "]";
 	}
 
-	public TblCountriesMaster(String id, String countryName, String currency, String alpha2, int countrycode,
-			String region, String subregion, String callingCode, TblTimeZone tblTimeZone, String currencySymbol) {
-		super();
-		this.id = id;
-		this.countryName = countryName;
-		this.currency = currency;
-		this.alpha2 = alpha2;
-		this.countrycode = countrycode;
-		this.region = region;
-		this.subregion = subregion;
-		this.callingCode = callingCode;
-		this.tblTimeZone = tblTimeZone;
-		this.currencySymbol = currencySymbol;
-	}
-
 	public TblCountriesMaster() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
+	
 }

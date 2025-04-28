@@ -11,12 +11,12 @@ public class UserDTO implements Serializable {
 
 	private String login;
 
-	private Boolean isActive;
+	private Boolean isActive = true;
 
 	private String email;
 
 	private String userName;
-	
+
 	private String password;
 
 	private String telephoneNumber;
@@ -35,6 +35,8 @@ public class UserDTO implements Serializable {
 	private String hometownZipCode;
 
 	private String otpResetKey;
+
+	private String profileImage;
 
 	private Double profilePercentage;
 
@@ -240,47 +242,24 @@ public class UserDTO implements Serializable {
 		return serialVersionUID;
 	}
 
+	public String getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
+	}
+
 	@Override
 	public String toString() {
 		return "UserDTO [id=" + id + ", login=" + login + ", isActive=" + isActive + ", email=" + email + ", userName="
 				+ userName + ", password=" + password + ", telephoneNumber=" + telephoneNumber + ", countryId="
 				+ countryId + ", isOnline=" + isOnline + ", loginInOutTime=" + loginInOutTime + ", company=" + company
 				+ ", hometownLatitude=" + hometownLatitude + ", hometownLongitude=" + hometownLongitude
-				+ ", hometownZipCode=" + hometownZipCode + ", otpResetKey=" + otpResetKey + ", profilePercentage="
-				+ profilePercentage + ", profilePercentageStage=" + profilePercentageStage + ", dateOfBirth="
-				+ dateOfBirth + ", address=" + address + ", city=" + city + ", state=" + state + ", pincode=" + pincode
-				+ ", role=" + role + "]";
-	}
-
-	public UserDTO(String id, String login, Boolean isActive, String email, String userName, String password,
-			String telephoneNumber, String countryId, String isOnline, Instant loginInOutTime, String company,
-			Double hometownLatitude, Double hometownLongitude, String hometownZipCode, String otpResetKey,
-			Double profilePercentage, Double profilePercentageStage, Instant dateOfBirth, String address, String city,
-			String state, String pincode, String role) {
-		super();
-		this.id = id;
-		this.login = login;
-		this.isActive = isActive;
-		this.email = email;
-		this.userName = userName;
-		this.password = password;
-		this.telephoneNumber = telephoneNumber;
-		this.countryId = countryId;
-		this.isOnline = isOnline;
-		this.loginInOutTime = loginInOutTime;
-		this.company = company;
-		this.hometownLatitude = hometownLatitude;
-		this.hometownLongitude = hometownLongitude;
-		this.hometownZipCode = hometownZipCode;
-		this.otpResetKey = otpResetKey;
-		this.profilePercentage = profilePercentage;
-		this.profilePercentageStage = profilePercentageStage;
-		this.dateOfBirth = dateOfBirth;
-		this.address = address;
-		this.city = city;
-		this.state = state;
-		this.pincode = pincode;
-		this.role = role;
+				+ ", hometownZipCode=" + hometownZipCode + ", otpResetKey=" + otpResetKey + ", profileImage="
+				+ profileImage + ", profilePercentage=" + profilePercentage + ", profilePercentageStage="
+				+ profilePercentageStage + ", dateOfBirth=" + dateOfBirth + ", address=" + address + ", city=" + city
+				+ ", state=" + state + ", pincode=" + pincode + ", role=" + role + "]";
 	}
 
 	public UserDTO() {
@@ -288,5 +267,12 @@ public class UserDTO implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
+	public UserDTO(String login, String email, String userName, String password) {
+		super();
+		this.login = login;
+		this.email = email;
+		this.userName = userName;
+		this.password = password;
+	}
 
 }

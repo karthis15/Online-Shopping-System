@@ -11,6 +11,8 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
 
+import com.example.online_shopping.enums.UserRole;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,7 +28,7 @@ public class AuthSucessHandlerImpl implements AuthenticationSuccessHandler {
 		
 		Set<String> roles = AuthorityUtils.authorityListToSet(authorities);
 		
-		if(roles.contains("ROLE_ADMIN"))
+		if(roles.contains(UserRole.ADMIN.getName()))
 		{
 			response.sendRedirect("/admin/");
 		}else {

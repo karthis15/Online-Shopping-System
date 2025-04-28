@@ -1,0 +1,104 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/online-shopping
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+
+  jpa:
+    hibernate:
+      ddl-auto: update  # Use 'create', 'update', or 'validate' or 'none' as per your requirement
+    show-sql: true     # Enable SQL query logging false or true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect  # Change to MySQLDialect if using older versions		
+        transaction:
+          jta:
+            platform:org.hibernate.engine.transaction.internal.jta.JtaPlatformException		
+
+
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 1032757693238-f0fei59d22al7bavl23amvk0h1ugdihc.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - profile
+              - email
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            client-name: Google
+        provider:
+          google:
+             authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+             token-uri: https://www.googleapis.com/oauth2/v4/token
+             user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: karthiswaran005@gmail.com   # your Gmail address
+    password: bzyg xdhl iqhm kzyw      # your Gmail App Password (not normal password)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    default-encoding: UTF-8
+
+security:
+  jwt:
+    token:
+      expire-length: 25200
+      secret-key: wdsiusersrequest
+resetPassword:
+  expiryTimeInMinutes: 10
+
+twilio:
+  account-sid: AC068c5184da32671fb8876f46ed95ba8b
+  auth-token: 41ab1acf4e813bf1f078b1492d828ef4
+  from-number: +91934592552
+
+logging:
+  level:
+    com.twilio: DEBUG
+    org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer: ERROR
+
+google:
+  drive:
+    credentials: classpath:crud.json
+    application-name: DriveUploaderApp
+
+debug: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+#bidding:
+#  unsecure_default:
+#    - /token/authenticate
+#    - /actuator/info
+#    - /login
+#    - /logout
+#    - /validateTocken
+#  unsecure_bidding:
+#    - /api/bidding/api/resetPassword
+#    - /api/resetPassword
+#    - /api/log/download
+#    - /api/bidding/api/loginOtpByMobileNumber
+#    - /api/loginOtpByMobileNumber
+#    - /api/GenerateOrValidateOTP
+#    - /api/bidding/api/GenerateOrValidateOTP
+#    - /api/bidding/api/GenerateOrValidateOTP
+#    - /api/selfregister/validateUserAndOTP
+#    - /api/reGenerateTokenV2
+#'[identifier_generator_strategy_provider]': com.yourpackage.CustomGeneratorProvider
+
+

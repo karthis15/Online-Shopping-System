@@ -12,15 +12,17 @@ public class ProductDTO {
 
 	private Double price;
 
-	private int stock;
+	private Integer stock;
 
 	private String image;
 
-	private int discount;
+	private Integer discount;
 
 	private Double discountPrice;
 
 	private Boolean isActive;
+	
+	private Integer purchaseCount = 0;
 
 	public Integer getId() {
 		return id;
@@ -62,11 +64,11 @@ public class ProductDTO {
 		this.price = price;
 	}
 
-	public int getStock() {
+	public Integer getStock() {
 		return stock;
 	}
 
-	public void setStock(int stock) {
+	public void setStock(Integer stock) {
 		this.stock = stock;
 	}
 
@@ -78,11 +80,11 @@ public class ProductDTO {
 		this.image = image;
 	}
 
-	public int getDiscount() {
+	public Integer getDiscount() {
 		return discount;
 	}
 
-	public void setDiscount(int discount) {
+	public void setDiscount(Integer discount) {
 		this.discount = discount;
 	}
 
@@ -102,15 +104,24 @@ public class ProductDTO {
 		this.isActive = isActive;
 	}
 
+	public Integer getPurchaseCount() {
+		return purchaseCount;
+	}
+
+	public void setPurchaseCount(Integer purchaseCount) {
+		this.purchaseCount = purchaseCount;
+	}
+
 	@Override
 	public String toString() {
 		return "ProductDTO [id=" + id + ", title=" + title + ", description=" + description + ", category=" + category
 				+ ", price=" + price + ", stock=" + stock + ", image=" + image + ", discount=" + discount
-				+ ", discountPrice=" + discountPrice + ", isActive=" + isActive + "]";
+				+ ", discountPrice=" + discountPrice + ", isActive=" + isActive + ", purchaseCount=" + purchaseCount
+				+ "]";
 	}
 
-	public ProductDTO(Integer id, String title, String description, String category, Double price, int stock,
-			String image, int discount, Double discountPrice, Boolean isActive) {
+	public ProductDTO(Integer id, String title, String description, String category, Double price, Integer stock,
+			String image, Integer discount, Double discountPrice, Boolean isActive, Integer purchaseCount) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -122,6 +133,13 @@ public class ProductDTO {
 		this.discount = discount;
 		this.discountPrice = discountPrice;
 		this.isActive = isActive;
+		this.purchaseCount = purchaseCount;
 	}
+
+	public ProductDTO() {
+		// TODO Auto-generated constructor stub
+	}
+
+	
 
 }
