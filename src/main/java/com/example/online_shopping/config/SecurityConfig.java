@@ -19,7 +19,6 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.example.online_shopping.service.impl.AuthServiceImpl;
 import com.example.online_shopping.service.impl.UserDetailsServiceImpl;
@@ -40,7 +39,7 @@ public class SecurityConfig {
 
 	@Autowired
 	@Lazy // Lazy initialization for JwtFilter to prevent circular reference
-	private JwtFilter jwtFilter;
+	private JwtAuthenticationFilter jwtFilter;
 
 	private final Logger log = LoggerFactory.getLogger(SecurityConfig.class);
 	private static final String[] SWAGGER_UNSECURE_PATTERNS = { "/**/swagger-ui/**", "/api/swagger.json",
@@ -66,8 +65,8 @@ public class SecurityConfig {
 		return authenticationProvider;
 	}
 
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//	@Bean
+//	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //		http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll() // Allow all requests
 //		)
 //				// .antMatchers("/**/swagger-ui/**")
@@ -77,25 +76,43 @@ public class SecurityConfig {
 //
 //		return http.build();
 
-		return http.csrf(customizer -> customizer.disable()).authorizeHttpRequests(request -> request
-				.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/forgot-password", "/img/**", "/css/**","/register", "/signin", "/","/forgot-password",
-						"/saveUser","/js/**", "/index.html", "/api/auth/**", "/api/register/tbl-users")
-				.permitAll()
-				.requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/user/**").hasRole("USER")
+//		return http.csrf(customizer -> customizer.disable()).authorizeHttpRequests(request -> request
+//				.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/forgot-password", "/img/**", "/css/**","/register", "/signin", "/","/forgot-password",
+//						"/saveUser","/js/**", "/index.html", "/api/auth/**", "/api/register/tbl-users")
+//				.permitAll()
+//				.requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/user/**").hasRole("USER")
+//
+//				.anyRequest().authenticated())
+//				.formLogin(form -> form.loginPage("/signin").loginProcessingUrl("/login").defaultSuccessUrl("/")
+//						.successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler))
+//				.oauth2Login(oauth2 -> oauth2.loginPage("/signin").defaultSuccessUrl("/", true))
+//				.logout(logout -> logout.permitAll())
+//				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class).build();
+//
+//	}
 
-				.anyRequest().authenticated())
-
-				// .formLogin(form -> form.loginPage("/signin").defaultSuccessUrl("/index",
-				// true).permitAll())
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http.csrf(csrf -> csrf.disable())
+				.authorizeHttpRequests(auth -> auth
+						.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**","/error", "/swagger-ui/**", "/v3/api-docs/**", "/img/**", "/css/**", "/js/**",
+								"/register", "/signin", "/", "/forgot-password", "/saveUser", "/index.html",
+								"/api/auth/**", "/api/register/tbl-users")
+						.permitAll().requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/user/**")
+						.hasRole("USER").anyRequest().authenticated())
 				.formLogin(form -> form.loginPage("/signin").loginProcessingUrl("/login").defaultSuccessUrl("/")
-						.successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler))
+						.successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler)
+						.permitAll())
 				.oauth2Login(oauth2 -> oauth2.loginPage("/signin").defaultSuccessUrl("/", true))
-				// .logout(logout ->
-				// logout.logoutUrl("/logout").logoutSuccessUrl("/signin?logout").permitAll())
 				.logout(logout -> logout.permitAll())
-				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class).build();
+				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // ✅
+																												// allows
+																												// session-based
+																												// auth
+				);
 
+		return http.build();
 	}
 
 //	@Bean

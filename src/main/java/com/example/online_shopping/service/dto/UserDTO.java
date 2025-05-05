@@ -19,7 +19,7 @@ public class UserDTO implements Serializable {
 
 	private String password;
 
-	private String telephoneNumber;
+	private String mobileNumber;
 
 	private String countryId;;
 	private String isOnline;
@@ -102,12 +102,13 @@ public class UserDTO implements Serializable {
 		this.password = password;
 	}
 
-	public String getTelephoneNumber() {
-		return telephoneNumber;
+
+	public String getMobileNumber() {
+		return mobileNumber;
 	}
 
-	public void setTelephoneNumber(String telephoneNumber) {
-		this.telephoneNumber = telephoneNumber;
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
 	}
 
 	public String getCountryId() {
@@ -250,16 +251,52 @@ public class UserDTO implements Serializable {
 		this.profileImage = profileImage;
 	}
 
+	
+
 	@Override
 	public String toString() {
 		return "UserDTO [id=" + id + ", login=" + login + ", isActive=" + isActive + ", email=" + email + ", userName="
-				+ userName + ", password=" + password + ", telephoneNumber=" + telephoneNumber + ", countryId="
-				+ countryId + ", isOnline=" + isOnline + ", loginInOutTime=" + loginInOutTime + ", company=" + company
+				+ userName + ", password=" + password + ", mobileNumber=" + mobileNumber + ", countryId=" + countryId
+				+ ", isOnline=" + isOnline + ", loginInOutTime=" + loginInOutTime + ", company=" + company
 				+ ", hometownLatitude=" + hometownLatitude + ", hometownLongitude=" + hometownLongitude
 				+ ", hometownZipCode=" + hometownZipCode + ", otpResetKey=" + otpResetKey + ", profileImage="
 				+ profileImage + ", profilePercentage=" + profilePercentage + ", profilePercentageStage="
 				+ profilePercentageStage + ", dateOfBirth=" + dateOfBirth + ", address=" + address + ", city=" + city
 				+ ", state=" + state + ", pincode=" + pincode + ", role=" + role + "]";
+	}
+	
+	
+
+	public UserDTO(String id, String login, Boolean isActive, String email, String userName, String password,
+			String mobileNumber, String countryId, String isOnline, Instant loginInOutTime, String company,
+			Double hometownLatitude, Double hometownLongitude, String hometownZipCode, String otpResetKey,
+			String profileImage, Double profilePercentage, Double profilePercentageStage, Instant dateOfBirth,
+			String address, String city, String state, String pincode, String role) {
+		super();
+		this.id = id;
+		this.login = login;
+		this.isActive = isActive;
+		this.email = email;
+		this.userName = userName;
+		this.password = password;
+		this.mobileNumber = mobileNumber;
+		this.countryId = countryId;
+		this.isOnline = isOnline;
+		this.loginInOutTime = loginInOutTime;
+		this.company = company;
+		this.hometownLatitude = hometownLatitude;
+		this.hometownLongitude = hometownLongitude;
+		this.hometownZipCode = hometownZipCode;
+		this.otpResetKey = otpResetKey;
+		this.profileImage = profileImage;
+		this.profilePercentage = profilePercentage;
+		this.profilePercentageStage = profilePercentageStage;
+		this.dateOfBirth = dateOfBirth;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.pincode = pincode;
+		this.role = role;
 	}
 
 	public UserDTO() {

@@ -1,18 +1,17 @@
 package com.example.online_shopping.controller;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.security.GeneralSecurityException;
 import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,8 +32,15 @@ import com.example.online_shopping.service.UserService;
 import com.example.online_shopping.service.dto.CategoryDTO;
 import com.example.online_shopping.service.dto.ProductDTO;
 import com.example.online_shopping.service.dto.UserDTO;
+import com.example.online_shopping.service.impl.GoogleDriveServiceImpl;
 import com.example.online_shopping.util.CommonUtil;
 import com.example.online_shopping.util.JwtTokenUtil;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
+import com.google.auth.http.HttpCredentialsAdapter;
+import com.google.auth.oauth2.GoogleCredentials;
 
 import io.micrometer.common.util.StringUtils;
 import jakarta.mail.MessagingException;
@@ -65,38 +71,39 @@ public class HomeController {
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 
-//	@ModelAttribute
-//	public void getUserDetails(Principal p, Model m) {
-//		if (p != null) {
-//			String email = p.getName();
-//			User userDtls = userService.getUserByEmail(email);
-//			m.addAttribute("user", userDtls);
-//			Integer countCart = cartService.getCountCart(userDtls.getId());
-//			m.addAttribute("countCart", countCart);
-//		}
-//
-//		List<CategoryDTO> allActiveCategory = categoryService.getAllActiveCategory();
-//		m.addAttribute("categorys", allActiveCategory);
-//	}
-	
+	@Autowired
+	private GoogleDriveServiceImpl driveService;
+
 	@ModelAttribute
-	public void getUserDetails(Principal p, Model m, HttpServletRequest request) {
-		//  if (!request.getRequestURI().equals("/signin") && !request.getRequestURI().equals("/register") && !request.getRequestURI().equals("/saveUser")) {
-	    if (p != null) {
-	        String email = p.getName();
-	        User userDtls = userService.getUserByEmail(email);
-	        m.addAttribute("user", userDtls);
-	        Integer countCart = cartService.getCountCart(userDtls.getId());
-	        m.addAttribute("countCart", countCart);
-	    }
+	public void getUserDetails(Principal p, Model m) {
+		if (p != null) {
+			String email = p.getName();
+			User userDtls = userService.getUserByEmail(email);
+			m.addAttribute("user", userDtls);
+			Integer countCart = cartService.getCountCart(userDtls.getId());
+			m.addAttribute("countCart", countCart);
+		}
 
-	    // Check if the current request is not for the login page
-	  
-	        List<CategoryDTO> allActiveCategory = categoryService.getAllActiveCategory();
-	        m.addAttribute("categorys", allActiveCategory);
-	    }
-	
+		List<CategoryDTO> allActiveCategory = categoryService.getAllActiveCategory();
+		m.addAttribute("categorys", allActiveCategory);
+	}
 
+//	@ModelAttribute
+//	public void getUserDetails(Principal p, Model m, HttpServletRequest request) {
+//		//  if (!request.getRequestURI().equals("/signin") && !request.getRequestURI().equals("/register") && !request.getRequestURI().equals("/saveUser")) {
+//	    if (p != null) {
+//	        String email = p.getName();
+//	        User userDtls = userService.getUserByEmail(email);
+//	        m.addAttribute("user", userDtls);
+//	        Integer countCart = cartService.getCountCart(userDtls.getId());
+//	        m.addAttribute("countCart", countCart);
+//	    }
+//
+//	    // Check if the current request is not for the login page
+//	  
+//	        List<CategoryDTO> allActiveCategory = categoryService.getAllActiveCategory();
+//	        m.addAttribute("categorys", allActiveCategory);
+//	    }
 
 	@GetMapping("/")
 	public String index(Model m) {
@@ -112,18 +119,23 @@ public class HomeController {
 
 	@GetMapping("/signin")
 	public String login(Principal principal) {
-	    if (principal != null) {
-	        return "redirect:/"; // Redirect to home if already logged in
-	    }
-	    return "login";
+		if (principal != null) {
+			return "redirect:/"; // Redirect to home if already logged in
+		}
+		return "login";
+	}
+
+	@GetMapping("/login")
+	public String login() {
+		return "login";
 	}
 
 	@GetMapping("/register")
 	public String register(Principal principal) {
-	    if (principal != null) {
-	        return "redirect:/"; // Redirect to home if already logged in
-	    }
-	    return "register";
+		if (principal != null) {
+			return "redirect:/"; // Redirect to home if already logged in
+		}
+		return "register";
 	}
 
 	@GetMapping("/products")
@@ -170,25 +182,21 @@ public class HomeController {
 	public String saveUser(@ModelAttribute UserDTO user, @RequestParam("img") MultipartFile file, HttpSession session)
 			throws IOException {
 
+		String url = null;
 		Boolean existsEmail = userService.existsEmail(user.getEmail());
 
 		if (existsEmail) {
 			session.setAttribute("errorMsg", "Email already exist");
 		} else {
-			String imageName = file.isEmpty() ? "default.jpg" : file.getOriginalFilename();
-			user.setProfileImage(imageName);
+			// String imageName = file.isEmpty() ? "default.jpg" :
+			// file.getOriginalFilename();
+			if (!file.isEmpty()) {
+				url = driveService.uploadImageToDrive(file);
+			}
+			user.setProfileImage(url);
 			UserDTO saveUser = userService.save(user);
 
 			if (!ObjectUtils.isEmpty(saveUser)) {
-				if (!file.isEmpty()) {
-					File saveFile = new ClassPathResource("static/img").getFile();
-
-					Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + "profile_img" + File.separator
-							+ file.getOriginalFilename());
-
-//					System.out.println(path);
-					Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-				}
 				session.setAttribute("succMsg", "Register successfully");
 			} else {
 				session.setAttribute("errorMsg", "something wrong on server");

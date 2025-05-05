@@ -23,7 +23,7 @@
 					</th:block>
 					<hr>
 					<div class="text-center">
-						<img alt="" th:src="@{'../img/profile_img/'+${user.profileImage}}"
+						<img th:src="@{/image/{id}(id=${user.profileImage})}" alt="Profile Image"
 							class="border p-2"
 							style="width: 110px; height: 110px; border-radius: 50%;">
 					</div>
@@ -37,7 +37,7 @@
 									<th scope="row">Name</th>
 									<td>:</td>
 									<td><input type="text" name="name" class="form-control"
-										th:value="${user.name}"></td>
+										th:value="${user.userName}"></td>
 								</tr>
 								<tr>
 									<th scope="row">Mobile Number</th>
@@ -91,7 +91,7 @@
 									<th scope="row">Account Status</th>
 									<td>:</td>
 									<td><input type="text" name="" class="form-control"
-										readonly th:value="${user.isEnable}"> <input
+										readonly th:value="${user.isActive}"> <input
 										type="hidden" th:value="${user.id}" name="id"></td>
 								</tr>
 

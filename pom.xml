@@ -75,7 +75,7 @@
 		<dependency>
 			<groupId>com.google.api-client</groupId>
 			<artifactId>google-api-client</artifactId>
-			<version>2.7.2</version>
+			<version>1.25.0</version>
 		</dependency>
 
 		<!--
@@ -122,14 +122,32 @@
 			<version>3.4.4</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.10.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.13</version>
+		</dependency>
+		
+		  <!-- Google HTTP Client -->
+    <dependency>
+        <groupId>com.google.http-client</groupId>
+        <artifactId>google-http-client</artifactId>
+        <version>1.46.0</version>
+    </dependency>
+
 
 		<!--		
 			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-envers</artifactId>
 		</dependency>
 		-->
-		
-		
+
 
 		<!-- MapStruct for DTO Mapping -->
 		<dependency>

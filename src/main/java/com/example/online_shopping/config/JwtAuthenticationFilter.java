@@ -8,12 +8,11 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.example.online_shopping.util.Constant;
+import com.example.online_shopping.service.impl.UserDetailsServiceImpl;
 import com.example.online_shopping.util.JwtTokenUtil;
 
 import jakarta.servlet.FilterChain;
@@ -22,14 +21,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class JwtFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	@Autowired
 	JwtTokenUtil jwtTokenUtil;
 
 	@Autowired
 	@Lazy // Lazy initialization for UserDetailsService to break circular reference
-	private UserDetailsService userDetailsService;
+	private UserDetailsServiceImpl userDetailsService;
+
+	public JwtAuthenticationFilter(JwtTokenUtil jwtTokenUtil, UserDetailsServiceImpl userDetailsService) {
+		this.jwtTokenUtil = jwtTokenUtil;
+		this.userDetailsService = userDetailsService;
+	}
 
 //	@Override
 //	protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)

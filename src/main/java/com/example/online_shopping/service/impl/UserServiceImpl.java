@@ -124,12 +124,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	// Create User Image
+//	public User createUser(String userId, MultipartFile file) throws IOException {
+//		String url = driveService.uploadImageToDrive(file);
+//		User user = new User();
+//		user.setId(userId);
+//		user.setProfileImage(url);
+//		return userRepository.save(user);
+//	}
+	
 	public User createUser(String userId, MultipartFile file) throws IOException {
-		String url = driveService.uploadFile(file);
-		User user = new User();
-		user.setId(userId);
-		user.setProfileImage(url);
-		return userRepository.save(user);
+		return null;
+		
 	}
 
 	// Get User Image
@@ -215,7 +220,7 @@ public class UserServiceImpl implements UserService {
 		if (!ObjectUtils.isEmpty(dbUser)) {
 
 			dbUser.setUserName(user.getUserName());
-			dbUser.setTelephoneNumber(user.getTelephoneNumber());
+			dbUser.setMobileNumber(user.getMobileNumber());
 			dbUser.setAddress(user.getAddress());
 			dbUser.setCity(user.getCity());
 			dbUser.setState(user.getState());

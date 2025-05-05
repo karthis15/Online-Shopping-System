@@ -2,6 +2,7 @@ package com.example.online_shopping.config;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,8 +25,10 @@ public class UserPrincipal implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
-		return Arrays.asList(authority);
+		Collection<GrantedAuthority> authorities = List.of(
+			    new SimpleGrantedAuthority("ROLE_" + user.getRole()) // user.getRole() should be "ADMIN" or "USER"
+			);
+		return authorities;
 	}
 
 	@Override
@@ -43,9 +46,17 @@ public class UserPrincipal implements UserDetails {
 		return true;
 	}
 
+
+
+	@Override
+	public boolean isEnabled() {
+		return user.getIsActive();
+	}
+
+
 	@Override
 	public boolean isAccountNonLocked() {
-		return user.getIsActive();
+		return true;
 	}
 
 	@Override
@@ -53,9 +64,6 @@ public class UserPrincipal implements UserDetails {
 		return true;
 	}
 
-	@Override
-	public boolean isEnabled() {
-		return user.getIsActive();
-	}
+	
 
 }

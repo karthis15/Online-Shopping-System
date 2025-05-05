@@ -13,7 +13,7 @@ public interface UserRepository
 
 	User findByEmailAndIsRecordDeletedFalse(String email);
 
-	User findByTelephoneNumber(String mobileNumber);
+	User findByMobileNumber(String mobileNumber);
 
 	User findByLogin(String login);
 

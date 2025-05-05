@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.online_shopping.config.UserPrincipal;
 import com.example.online_shopping.domain.User;
 import com.example.online_shopping.repository.UserRepository;
-//(value = "userService")
+
 @Service   
 public class UserDetailsServiceImpl implements UserDetailsService {
 	

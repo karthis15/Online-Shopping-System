@@ -7,7 +7,7 @@ $(function(){
 	$userRegister.validate({
 		
 		rules:{
-			name:{
+			userName:{
 				required:true,
 				lettersonly:true
 			}
@@ -63,7 +63,7 @@ $(function(){
 			
 		},
 		messages:{
-			name:{
+			userName:{
 				required:'name required',
 				lettersonly:'invalid name'
 			},

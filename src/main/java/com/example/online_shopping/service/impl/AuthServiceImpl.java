@@ -66,7 +66,7 @@ public class AuthServiceImpl extends DefaultOAuth2UserService implements AuthSer
 	}
 
 	public String loginWithOtp(String mobileNumber, String otp) {
-		User user = userRepository.findByTelephoneNumber(mobileNumber);
+		User user = userRepository.findByMobileNumber(mobileNumber);
 		if (!otpService.validateOtp(mobileNumber, otp)) {
 			throw new RuntimeException("Invalid OTP");
 		}

@@ -63,7 +63,7 @@ resetPassword:
 twilio:
   account-sid: AC068c5184da32671fb8876f46ed95ba8b
   auth-token: 41ab1acf4e813bf1f078b1492d828ef4
-  from-number: +91934592552
+  from-number: #############
 
 logging:
   level:
@@ -72,7 +72,8 @@ logging:
 
 google:
   drive:
-    credentials: classpath:crud.json
+    folder.id: "1KU_Qv4Z_6moYNGvcp_NWTKFnAnjzs7u6"
+    credentials: "classpath:crud.json"
     application-name: DriveUploaderApp
 
 debug: true

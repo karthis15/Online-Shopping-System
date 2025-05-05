@@ -38,7 +38,7 @@ public class User extends AbstractAuditingEntity implements Identifiable<String>
 	private String password;
 
 	@Column(name = "telephonenumber")
-	private String telephoneNumber;
+	private String mobileNumber;
 
 	@Column(name = "profileImage", length = 1000)
 	private String profileImage;
@@ -149,12 +149,14 @@ public class User extends AbstractAuditingEntity implements Identifiable<String>
 		this.password = password;
 	}
 
-	public String getTelephoneNumber() {
-		return telephoneNumber;
+	
+
+	public String getMobileNumber() {
+		return mobileNumber;
 	}
 
-	public void setTelephoneNumber(String telephoneNumber) {
-		this.telephoneNumber = telephoneNumber;
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
 	}
 
 	public String getProfileImage() {
@@ -289,10 +291,12 @@ public class User extends AbstractAuditingEntity implements Identifiable<String>
 		return serialVersionUID;
 	}
 
+		
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", login=" + login + ", isActive=" + isActive + ", email=" + email + ", userName="
-				+ userName + ", password=" + password + ", telephoneNumber=" + telephoneNumber + ", profileImage="
+				+ userName + ", password=" + password + ", mobileNumber=" + mobileNumber + ", profileImage="
 				+ profileImage + ", loginInOutTime=" + loginInOutTime + ", company=" + company + ", hometownLatitude="
 				+ hometownLatitude + ", hometownLongitude=" + hometownLongitude + ", hometownZipCode=" + hometownZipCode
 				+ ", otpResetKey=" + otpResetKey + ", profilePercentage=" + profilePercentage
@@ -302,10 +306,10 @@ public class User extends AbstractAuditingEntity implements Identifiable<String>
 	}
 
 	public User(String id, String login, Boolean isActive, String email, String userName, String password,
-			String telephoneNumber, String profileImage, Instant loginInOutTime, String company,
-			Double hometownLatitude, Double hometownLongitude, String hometownZipCode, String otpResetKey,
-			Double profilePercentage, Double profilePercentageStage, Instant dateOfBirth, String address, String city,
-			String state, String pincode, String role, Integer failedAttempt) {
+			String mobileNumber, String profileImage, Instant loginInOutTime, String company, Double hometownLatitude,
+			Double hometownLongitude, String hometownZipCode, String otpResetKey, Double profilePercentage,
+			Double profilePercentageStage, Instant dateOfBirth, String address, String city, String state,
+			String pincode, String role, Integer failedAttempt) {
 		super();
 		this.id = id;
 		this.login = login;
@@ -313,7 +317,7 @@ public class User extends AbstractAuditingEntity implements Identifiable<String>
 		this.email = email;
 		this.userName = userName;
 		this.password = password;
-		this.telephoneNumber = telephoneNumber;
+		this.mobileNumber = mobileNumber;
 		this.profileImage = profileImage;
 		this.loginInOutTime = loginInOutTime;
 		this.company = company;

@@ -71,7 +71,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public ProductDTO saveProductWithImage(ProductDTO productDTO, MultipartFile imageFile) throws Exception {
-		String imageUrl = googleDriveServiceImpl.uploadFile(imageFile); // Upload image to Google Drive
+		String imageUrl = googleDriveServiceImpl.uploadImageToDrive(imageFile); // Upload image to Google Drive
 		productDTO.setImage(imageUrl); // Set Google Drive URL in DTO
 
 		Product product = new Product();
