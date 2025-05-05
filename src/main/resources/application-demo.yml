@@ -26,8 +26,8 @@ spring:
       client:
         registration:
           google:
-            client-id: 1032757693238-f0fei59d22al7bavl23amvk0h1ugdihc.apps.googleusercontent.com
-            client-secret: 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
+            client-id: ##################################################
+            client-secret: ############################################
             scope:
               - profile
               - email
@@ -35,15 +35,15 @@ spring:
             client-name: Google
         provider:
           google:
-             authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
-             token-uri: https://www.googleapis.com/oauth2/v4/token
-             user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+             authorization-uri: ######################################
+             token-uri: ##############################
+             user-info-uri: ###############################
 
   mail:
     host: smtp.gmail.com
     port: 587
-    username: karthiswaran005@gmail.com   # your Gmail address
-    password: bzyg xdhl iqhm kzyw      # your Gmail App Password (not normal password)
+    username: ################  # your Gmail address
+    password: ################   # your Gmail App Password (not normal password)
     properties:
       mail:
         smtp:
@@ -61,8 +61,8 @@ resetPassword:
   expiryTimeInMinutes: 10
 
 twilio:
-  account-sid: AC068c5184da32671fb8876f46ed95ba8b
-  auth-token: 41ab1acf4e813bf1f078b1492d828ef4
+  account-sid: ##########################
+  auth-token: ######################
   from-number: #############
 
 logging:
@@ -72,8 +72,8 @@ logging:
 
 google:
   drive:
-    folder.id: "1KU_Qv4Z_6moYNGvcp_NWTKFnAnjzs7u6"
-    credentials: "classpath:crud.json"
+    folder.id: ######################
+    credentials: #######################
     application-name: DriveUploaderApp
 
 debug: true
